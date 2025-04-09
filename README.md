@@ -121,7 +121,7 @@ npx projen deploy
 ```
 
 > [!IMPORTANT]
-> Ensure to accept the pending CodeStarSourceConnection to ensure GitHub can communicate with CodePipeline
+> Ensure to accept the pending CodeStarSourceConnection to ensure GitHub can communicate with CodePipeline.
 > See guide [here](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html)
 
 
