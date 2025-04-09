@@ -27,7 +27,7 @@ firstblox-cdk-ts-project-starter-cicd
 
 - Projen CDK TS project scaffolding.
 - Seperate develop app to facilitate development.
-- Pipeline stack, stage and configuration.
+- Pipeline stack (includes CodeStarSourceConnection), stage and configuration.
 - Stateful and stateless example stacks.
 - Configuration file for all application configurations.
 - Auto generation of deployment stages via CDK pipelines.
@@ -119,6 +119,11 @@ npx projen synth
 ```bash
 npx projen deploy
 ```
+
+> [!IMPORTANT]
+> Ensure to accept the pending CodeStarSourceConnection to ensure GitHub can communicate with CodePipeline
+> See guide [here](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html)
+
 
 ## Destroy
 
