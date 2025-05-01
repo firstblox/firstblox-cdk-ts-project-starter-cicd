@@ -18,7 +18,7 @@ export const fetchAccountsStep = (
       "pnpm i",
       `node src/scripts/fetch-accounts.js --region ${region}`,
     ],
-    primaryOutputDirectory: "cdk.out",
+    primaryOutputDirectory: ".",
   });
 
   return fetchAccountsStep;
