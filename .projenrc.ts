@@ -14,6 +14,8 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     "@aws-sdk/client-dynamodb",
     "@aws-sdk/lib-dynamodb",
     "@aws-sdk/client-s3",
+    "@aws-sdk/client-ssm",
+    "@aws-sdk/credential-provider-env",
     "@types/aws-lambda",
     "aws-lambda",
     "aws-sdk",

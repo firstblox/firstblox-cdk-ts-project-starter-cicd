@@ -12,11 +12,11 @@ dotenv.config();
 export const PROJECT_NAME = "firstblox-cdk-ts-project-starter-cicd";
 
 export const accountIds: AccountId = {
-  pipeline: "111111111111",
-  dev: "222222222222",
-  qa: "333333333333",
-  staging: "444444444444",
-  prod: "555555555555",
+  pipeline: process.env.ACCOUNT_ID_PIPELINE || "",
+  dev: process.env.ACCOUNT_ID_DEV || "",
+  qa: process.env.ACCOUNT_ID_QA || "",
+  staging: process.env.ACCOUNT_ID_STAGING || "",
+  prod: process.env.ACCOUNT_ID_PROD || "",
 };
 
 export const pipelineConfig: PipelineConfig = {
