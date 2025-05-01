@@ -6,8 +6,8 @@ import * as ssm from "aws-cdk-lib/aws-ssm";
 import * as pipelines from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
 import { PipelineStage } from "./pipeline.stage";
-import { environments } from "../config/config";
 import { fetchAccountsStep } from "./utils";
+import { environments } from "../config/config";
 
 export interface PipelineStackProps extends cdk.StackProps {
   ssmParameterNameCodeStarConnection?: string;

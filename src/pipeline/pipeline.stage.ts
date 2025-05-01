@@ -14,23 +14,23 @@ export class PipelineStage extends cdk.Stage {
       `${PROJECT_NAME}-stateful-${props.stageName}`,
       {
         env: props.env,
+        tableName: props.stateful.tableName,
+        bucketName: props.stateful.bucketName,
         tags: {
           Environment: props.stageName,
         },
-        tableName: props.stateful.tableName,
-        bucketName: props.stateful.bucketName,
       },
     );
 
     new StatelessStack(this, `${PROJECT_NAME}-stateless-${props.stageName}`, {
       env: props.env,
-      tags: {
-        Environment: props.stageName,
-      },
       table: statefulStack.table,
       bucket: statefulStack.bucket,
       stageName: props.stageName,
       lambdaMemorySize: props.stateless.lambdaMemorySize,
+      tags: {
+        Environment: props.stageName,
+      },
     });
   }
 }

@@ -5,7 +5,7 @@ export const fetchAccountsStep = (
   input: pipelines.CodePipelineSource,
   region: string,
 ) => {
-  const fetchAccountsStep = new pipelines.CodeBuildStep("fetch-accounts", {
+  return new pipelines.CodeBuildStep("fetch-accounts", {
     rolePolicyStatements: [
       new iam.PolicyStatement({
         actions: ["ssm:GetParameter"],
@@ -20,6 +20,4 @@ export const fetchAccountsStep = (
     ],
     primaryOutputDirectory: ".",
   });
-
-  return fetchAccountsStep;
 };
