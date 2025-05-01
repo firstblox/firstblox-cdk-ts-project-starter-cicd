@@ -83,7 +83,7 @@ export class DevPipelineStack extends cdk.Stack {
         }),
         input: sourceAction,
         commands: [
-          "cat .env",
+          "ls -la",
           "npm install -g pnpm",
           "pnpm i",
           "pnpm run build",
