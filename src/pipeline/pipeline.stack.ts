@@ -7,6 +7,7 @@ import * as pipelines from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
 import { PipelineStage } from "./pipeline.stage";
 import { environments } from "../config/config";
+import { fetchAccountsStep } from "./utils";
 
 export interface PipelineStackProps extends cdk.StackProps {
   ssmParameterNameCodeStarConnection?: string;
@@ -74,6 +75,11 @@ export class PipelineStack extends cdk.Stack {
         ],
       },
       synth: new pipelines.CodeBuildStep("synth", {
+        ...(props.dynamicAccounts && {
+          additionalInputs: {
+            accountsAsDotEnv: fetchAccountsStep(sourceAction, this.region),
+          },
+        }),
         input: sourceAction,
         commands: [
           "npm install -g pnpm",
