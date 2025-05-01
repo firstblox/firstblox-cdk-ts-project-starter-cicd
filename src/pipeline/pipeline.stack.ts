@@ -5,7 +5,7 @@ import * as iam from "aws-cdk-lib/aws-iam";
 import * as ssm from "aws-cdk-lib/aws-ssm";
 import * as pipelines from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
-import { PipelineStage } from "./pipeline.stage";
+import { ApplicationStage } from "../app/stages/application.stage";
 import { fetchAccountsStep } from "./utils";
 import { environments } from "../config/config";
 import { Stage } from "../config/types";
@@ -77,13 +77,14 @@ export class PipelineStack extends cdk.Stack {
       synth: new pipelines.CodeBuildStep("synth", {
         ...(props.dynamicAccounts && {
           additionalInputs: {
-            ".": fetchAccountsStep(sourceAction, this.region),
+            'accounts': fetchAccountsStep(sourceAction, this.region),
           },
         }),
         input: sourceAction,
         commands: [
           "npm install -g pnpm",
           "pnpm i",
+          "cp accounts/output/.env .",
           "pnpm run build",
           `npx projen synth`,
         ],
@@ -95,12 +96,12 @@ export class PipelineStack extends cdk.Stack {
       }),
     });
 
-    const stagingStage: PipelineStage = new PipelineStage(this, "Stage", {
+    const stagingStage: ApplicationStage = new ApplicationStage(this, "Stage", {
       ...environments[Stage.staging],
     });
     pipeline.addStage(stagingStage);
 
-    const prodStage: PipelineStage = new PipelineStage(this, "Prod", {
+    const prodStage: ApplicationStage = new ApplicationStage(this, "Prod", {
       ...environments[Stage.prod],
     });
     pipeline.addStage(prodStage, {
