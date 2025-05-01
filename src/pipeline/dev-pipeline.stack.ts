@@ -13,6 +13,7 @@ export interface DevPipelineStackProps extends cdk.StackProps {
   ssmParameterNameCodeStarConnection?: string;
   codeStarConnectionName?: string;
   pipelineName: string;
+  dynamicAccounts: boolean;
   useChangeSets: boolean;
   selfMutation: boolean;
   github: {
@@ -75,9 +76,11 @@ export class DevPipelineStack extends cdk.Stack {
         ],
       },
       synth: new pipelines.CodeBuildStep("synth", {
-        additionalInputs: {
-          accountsAsDotEnv: fetchAccountsStep(sourceAction, this.region),
-        },
+        ...(props.dynamicAccounts && {
+          additionalInputs: {
+            accountsAsDotEnv: fetchAccountsStep(sourceAction, this.region),
+          },
+        }),
         input: sourceAction,
         commands: [
           "npm install -g pnpm",

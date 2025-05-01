@@ -31,6 +31,7 @@ export const pipelineConfig: PipelineConfig = {
   },
   codeStarConnectionName: "project-starter-connection",
   pipelineName: `${PROJECT_NAME}-pipeline`,
+  dynamicAccounts: true,
   useChangeSets: true,
   selfMutation: true,
 };
