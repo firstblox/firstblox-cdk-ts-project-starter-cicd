@@ -4,13 +4,9 @@ export interface EnvironmentConfig {
     region: string;
   };
   stageName: string;
-  stateful: {
-    tableName: string;
-    bucketName: string;
-  };
-  stateless: {
-    lambdaMemorySize: number;
-  };
+  tableName: string;
+  bucketName: string;
+  lambdaMemorySize: number;
 }
 
 export interface PipelineConfig {

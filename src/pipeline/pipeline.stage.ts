@@ -14,8 +14,8 @@ export class PipelineStage extends cdk.Stage {
       `${PROJECT_NAME}-stateful-${props.stageName}`,
       {
         env: props.env,
-        tableName: props.stateful.tableName,
-        bucketName: props.stateful.bucketName,
+        tableName: props.tableName,
+        bucketName: props.bucketName,
         tags: {
           Environment: props.stageName,
         },
@@ -27,7 +27,7 @@ export class PipelineStage extends cdk.Stage {
       table: statefulStack.table,
       bucket: statefulStack.bucket,
       stageName: props.stageName,
-      lambdaMemorySize: props.stateless.lambdaMemorySize,
+      lambdaMemorySize: props.lambdaMemorySize,
       tags: {
         Environment: props.stageName,
       },

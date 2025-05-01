@@ -22,23 +22,23 @@ const statefulStack = new StatefulStack(
   `${PROJECT_NAME}-stateful-${stage}`,
   {
     env: environments[Stage.featureDev].env,
+    tableName: environments[Stage.featureDev].tableName,
+    bucketName: environments[Stage.featureDev].bucketName,
     tags: {
       Environment: stage,
     },
-    tableName: environments[Stage.featureDev].stateful.tableName,
-    bucketName: environments[Stage.featureDev].stateful.bucketName,
   },
 );
 
 new StatelessStack(app, `${PROJECT_NAME}-stateless-${stage}`, {
   env: environments[Stage.featureDev].env,
-  tags: {
-    Environment: stage,
-  },
   table: statefulStack.table,
   bucket: statefulStack.bucket,
   stageName: stage,
   lambdaMemorySize: 1024,
+  tags: {
+    Environment: stage,
+  },
 });
 
 app.synth();

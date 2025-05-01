@@ -45,13 +45,9 @@ export const environments: Record<Stage, EnvironmentConfig> = {
       region:
         process.env.TARGET_REGION || (process.env.CDK_DEFAULT_REGION as string),
     },
-    stateful: {
-      tableName: `${PROJECT_NAME}-${process.env.STAGE}-table`.toLowerCase(),
-      bucketName: `${PROJECT_NAME}-${process.env.STAGE}-bucket`.toLowerCase(),
-    },
-    stateless: {
-      lambdaMemorySize: 1024,
-    },
+    tableName: `${PROJECT_NAME}-${process.env.STAGE}-table`.toLowerCase(),
+    bucketName: `${PROJECT_NAME}-${process.env.STAGE}-bucket`.toLowerCase(),
+    lambdaMemorySize: 1024,
     stageName: process.env.STAGE || Stage.featureDev,
   },
   [Stage.dev]: {
@@ -59,13 +55,9 @@ export const environments: Record<Stage, EnvironmentConfig> = {
       account: accountIds.dev,
       region: Region.virginia,
     },
-    stateful: {
-      tableName: `${PROJECT_NAME}-${Stage.dev}-table`.toLowerCase(),
-      bucketName: `${PROJECT_NAME}-${Stage.dev}-bucket`.toLowerCase(),
-    },
-    stateless: {
-      lambdaMemorySize: 1024,
-    },
+    tableName: `${PROJECT_NAME}-${Stage.dev}-table`.toLowerCase(),
+    bucketName: `${PROJECT_NAME}-${Stage.dev}-bucket`.toLowerCase(),
+    lambdaMemorySize: 1024,
     stageName: Stage.dev,
   },
   [Stage.qa]: {
@@ -73,13 +65,9 @@ export const environments: Record<Stage, EnvironmentConfig> = {
       account: accountIds.qa,
       region: Region.virginia,
     },
-    stateful: {
-      tableName: `${PROJECT_NAME}-${Stage.dev}-table`.toLowerCase(),
-      bucketName: `${PROJECT_NAME}-${Stage.dev}-bucket`.toLowerCase(),
-    },
-    stateless: {
-      lambdaMemorySize: 1024,
-    },
+    tableName: `${PROJECT_NAME}-${Stage.dev}-table`.toLowerCase(),
+    bucketName: `${PROJECT_NAME}-${Stage.dev}-bucket`.toLowerCase(),
+    lambdaMemorySize: 1024,
     stageName: Stage.dev,
   },
   [Stage.staging]: {
@@ -87,13 +75,9 @@ export const environments: Record<Stage, EnvironmentConfig> = {
       account: accountIds.staging,
       region: Region.virginia,
     },
-    stateful: {
-      tableName: `${PROJECT_NAME}-${Stage.staging}-table`.toLowerCase(),
-      bucketName: `${PROJECT_NAME}-${Stage.staging}-bucket`.toLowerCase(),
-    },
-    stateless: {
-      lambdaMemorySize: 1024,
-    },
+    tableName: `${PROJECT_NAME}-${Stage.staging}-table`.toLowerCase(),
+    bucketName: `${PROJECT_NAME}-${Stage.staging}-bucket`.toLowerCase(),
+    lambdaMemorySize: 1024,
     stageName: Stage.staging,
   },
   [Stage.prod]: {
@@ -101,13 +85,9 @@ export const environments: Record<Stage, EnvironmentConfig> = {
       account: accountIds.prod,
       region: Region.virginia,
     },
-    stateful: {
-      tableName: `${PROJECT_NAME}-${Stage.prod}-table`.toLowerCase(),
-      bucketName: `${PROJECT_NAME}-${Stage.prod}-bucket`.toLowerCase(),
-    },
-    stateless: {
-      lambdaMemorySize: 1024,
-    },
+    tableName: `${PROJECT_NAME}-${Stage.prod}-table`.toLowerCase(),
+    bucketName: `${PROJECT_NAME}-${Stage.prod}-bucket`.toLowerCase(),
+    lambdaMemorySize: 1024,
     stageName: Stage.prod,
   },
 };
