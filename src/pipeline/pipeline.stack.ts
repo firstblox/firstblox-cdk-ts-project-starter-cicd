@@ -84,7 +84,7 @@ export class PipelineStack extends cdk.Stack {
         commands: [
           "npm install -g pnpm",
           "pnpm i",
-          "cp accounts/output/.env .",
+          "cp accounts/.env .",
           "pnpm run build",
           `npx projen synth`,
         ],
