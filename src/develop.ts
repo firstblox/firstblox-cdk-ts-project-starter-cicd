@@ -1,9 +1,6 @@
 import * as cdk from "aws-cdk-lib";
-import * as dotenv from "dotenv";
 import { pipelineConfig, PROJECT_NAME } from "./config/config";
 import { DevPipelineStack } from "./pipeline/dev-pipeline.stack";
-
-dotenv.config();
 
 const app = new cdk.App();
 

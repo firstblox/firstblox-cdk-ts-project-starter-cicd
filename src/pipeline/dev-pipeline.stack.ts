@@ -8,6 +8,7 @@ import { Construct } from "constructs";
 import { PipelineStage } from "./pipeline.stage";
 import { fetchAccountsStep } from "./utils";
 import { environments } from "../config/config";
+import { Stage } from "../config/types";
 
 export interface DevPipelineStackProps extends cdk.StackProps {
   ssmParameterNameCodeStarConnection?: string;
@@ -99,7 +100,7 @@ export class DevPipelineStack extends cdk.Stack {
     });
 
     const devStage: PipelineStage = new PipelineStage(this, `Dev`, {
-      ...environments.dev,
+      ...environments[Stage.dev],
     });
     pipeline.addStage(devStage);
   }

@@ -8,7 +8,7 @@ import { Construct } from "constructs";
 import { PipelineStage } from "./pipeline.stage";
 import { fetchAccountsStep } from "./utils";
 import { environments } from "../config/config";
-
+import { Stage } from "../config/types";
 export interface PipelineStackProps extends cdk.StackProps {
   ssmParameterNameCodeStarConnection?: string;
   codeStarConnectionName?: string;
@@ -96,12 +96,12 @@ export class PipelineStack extends cdk.Stack {
     });
 
     const stagingStage: PipelineStage = new PipelineStage(this, "Stage", {
-      ...environments.staging,
+      ...environments[Stage.staging],
     });
     pipeline.addStage(stagingStage);
 
     const prodStage: PipelineStage = new PipelineStage(this, "Prod", {
-      ...environments.prod,
+      ...environments[Stage.prod],
     });
     pipeline.addStage(prodStage, {
       pre: [new pipelines.ManualApprovalStep("PromoteToProd")],
