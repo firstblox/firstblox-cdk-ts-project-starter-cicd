@@ -86,9 +86,9 @@ export class DevPipelineStack extends cdk.Stack {
           "npm install -g pnpm",
           "pnpm i",
           "pnpm run build",
-          `npx projen dev synth`,
+          `npx projen develop synth`,
         ],
-        primaryOutputDirectory: "cdk.dev.out",
+        primaryOutputDirectory: "cdk.develop.out",
         buildEnvironment: {
           buildImage: codebuild.LinuxBuildImage.STANDARD_7_0,
           computeType: codebuild.ComputeType.MEDIUM,
