@@ -6,7 +6,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   defaultReleaseBranch: "main",
   name: "firstblox-cdk-ts-project-starter-cicd",
   projenrcTs: true,
-  packageManager: NodePackageManager.NPM,
+  packageManager: NodePackageManager.PNPM,
   jest: false,
   eslint: true,
   prettier: true,
@@ -32,11 +32,18 @@ project.gitignore.exclude(
   "cdk.context.json",
   "cdk.out/",
   "cdk.develop.out/",
+  "cdk.feature-dev.out/",
+  "cdk.hotfix.out/",
   "cdk-outputs.json",
 );
 
 project.addTask("develop", {
   exec: 'npx cdk --output cdk.develop.out --app "npx ts-node -P tsconfig.json --prefer-ts-exts src/develop.ts"',
+  receiveArgs: true,
+});
+
+project.addTask("feature-dev", {
+  exec: 'npx cdk --output cdk.feature-dev.out --app "npx ts-node -P tsconfig.json --prefer-ts-exts src/feature-dev.ts"',
   receiveArgs: true,
 });
 

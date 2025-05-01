@@ -12,6 +12,7 @@
     "diff": "npx projen diff",
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
+    "feature-dev": "npx projen feature-dev",
     "package": "npx projen package",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",
@@ -53,6 +54,7 @@
     "dotenv": "^16.4.7",
     "uuid": "^11.1.0"
   },
+  "pnpm": {},
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"

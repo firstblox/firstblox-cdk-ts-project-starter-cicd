@@ -1,14 +1,16 @@
 import * as cdk from "aws-cdk-lib";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
-import * as codestarconnections from "aws-cdk-lib/aws-codestarconnections";
 import * as iam from "aws-cdk-lib/aws-iam";
+import * as ssm from "aws-cdk-lib/aws-ssm";
 import * as pipelines from "aws-cdk-lib/pipelines";
+import * as codestarconnections from "aws-cdk-lib/aws-codestarconnections";
 import { Construct } from "constructs";
-import { environments } from "../../config";
-import { PipelineStage } from "../stage/pipeline.stage";
+import { PipelineStage } from "./pipeline.stage";
+import { environments } from "../config/config";
 
-export interface PipelineStackProps extends cdk.StackProps {
-  codeStarConnectionName: string;
+export interface DevPipelineStackProps extends cdk.StackProps {
+  ssmParameterNameCodeStarConnection?: string;
+  codeStarConnectionName?: string;
   pipelineName: string;
   useChangeSets: boolean;
   selfMutation: boolean;
@@ -19,26 +21,36 @@ export interface PipelineStackProps extends cdk.StackProps {
   };
 }
 
-export class PipelineStack extends cdk.Stack {
-  public readonly codestarConnection: codestarconnections.CfnConnection;
-
-  constructor(scope: Construct, id: string, props: PipelineStackProps) {
+export class DevPipelineStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props: DevPipelineStackProps) {
     super(scope, id, props);
 
-    this.codestarConnection = new codestarconnections.CfnConnection(
-      this,
-      "codestar-connection",
-      {
-        connectionName: props.codeStarConnectionName,
-        providerType: "GitHub",
-      },
-    );
+    let codestarConnectionArn: string;
+    const codeStarConnectionName = props.codeStarConnectionName || "codestar-connection-dev";
+
+    if (props.ssmParameterNameCodeStarConnection) {
+      codestarConnectionArn = ssm.StringParameter.valueFromLookup(
+        this,
+        props.ssmParameterNameCodeStarConnection,
+      );
+    } else {
+      const codestarConnection = new codestarconnections.CfnConnection(
+        this,
+        "codestar-connection",
+        {
+          connectionName: codeStarConnectionName,
+          providerType: "GitHub",
+        },
+      );
+      codestarConnectionArn = codestarConnection.attrConnectionArn;
+    }
 
     const sourceAction = pipelines.CodePipelineSource.connection(
       `${props.github.owner}/${props.github.repository}`,
       props.github.branch,
       {
-        connectionArn: this.codestarConnection.attrConnectionArn,
+        triggerOnPush: true,
+        connectionArn: codestarConnectionArn,
       },
     );
 
@@ -62,7 +74,13 @@ export class PipelineStack extends cdk.Stack {
       },
       synth: new pipelines.CodeBuildStep("synth", {
         input: sourceAction,
-        commands: ["npm ci", "npm run build", `npx projen synth`],
+        commands: [
+          "npm install -g pnpm",
+          "pnpm i",
+          "pnpm run build",
+          `npx projen dev synth`,
+        ],
+        primaryOutputDirectory: "cdk.dev.out",
         buildEnvironment: {
           buildImage: codebuild.LinuxBuildImage.STANDARD_7_0,
           computeType: codebuild.ComputeType.MEDIUM,
@@ -71,22 +89,9 @@ export class PipelineStack extends cdk.Stack {
       }),
     });
 
-    new PipelineStage(this, `Dev`, {
+    const devStage: PipelineStage = new PipelineStage(this, `Dev`, {
       ...environments.dev,
     });
-
-    const stagingStage: PipelineStage = new PipelineStage(this, "Stage", {
-      ...environments.staging,
-    });
-    pipeline.addStage(stagingStage, {
-      pre: [new pipelines.ManualApprovalStep("PromoteToStage")],
-    });
-
-    const prodStage: PipelineStage = new PipelineStage(this, "Prod", {
-      ...environments.prod,
-    });
-    pipeline.addStage(prodStage, {
-      pre: [new pipelines.ManualApprovalStep("PromoteToProd")],
-    });
+    pipeline.addStage(devStage);
   }
 }

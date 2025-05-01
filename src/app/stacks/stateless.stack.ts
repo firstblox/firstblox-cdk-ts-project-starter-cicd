@@ -45,7 +45,7 @@ export class StatelessStack extends cdk.Stack {
       "GetOrderLambda",
       {
         runtime: lambda.Runtime.NODEJS_20_X,
-        entry: path.join(__dirname, "handlers/get-order/handler.ts"),
+        entry: path.join(__dirname, "../handlers/get-order/handler.ts"),
         memorySize: props.lambdaMemorySize,
         handler: "handler",
         environment: {
@@ -60,7 +60,7 @@ export class StatelessStack extends cdk.Stack {
       "CreateOrderLambda",
       {
         runtime: lambda.Runtime.NODEJS_20_X,
-        entry: path.join(__dirname, "handlers/create-order/handler.ts"),
+        entry: path.join(__dirname, "../handlers/create-order/handler.ts"),
         memorySize: props.lambdaMemorySize,
         handler: "handler",
         environment: {

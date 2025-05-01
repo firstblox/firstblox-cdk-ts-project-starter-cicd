@@ -5,6 +5,7 @@ export interface EnvironmentConfig {
   };
   stageName: string;
   stateful: {
+    tableName: string;
     bucketName: string;
   };
   stateless: {
@@ -22,10 +23,19 @@ export interface PipelineConfig {
     repository: string;
     branch: string;
   };
-  codeStarConnectionName: string;
   pipelineName: string;
   useChangeSets: boolean;
   selfMutation: boolean;
+  ssmParameterNameCodeStarConnection?: string;
+  codeStarConnectionName?: string;
+}
+
+export interface AccountId {
+  pipeline: string;
+  dev: string;
+  qa: string;
+  staging: string;
+  prod: string;
 }
 
 export const enum Region {
@@ -36,8 +46,9 @@ export const enum Region {
 }
 
 export const enum Stage {
+  featureDev = "feature-dev",
   dev = "dev",
+  qa = "qa",
   staging = "staging",
   prod = "prod",
-  develop = "develop",
 }
