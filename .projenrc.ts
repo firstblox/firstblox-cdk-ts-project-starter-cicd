@@ -19,6 +19,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     "@types/aws-lambda",
     "aws-lambda",
     "aws-sdk",
+    "commander",
     "dotenv",
     "uuid",
   ],

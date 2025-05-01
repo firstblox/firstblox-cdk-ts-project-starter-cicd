@@ -35,6 +35,9 @@ importers:
       aws-sdk:
         specifier: ^2.1692.0
         version: 2.1692.0
+      commander:
+        specifier: ^3.0.2
+        version: 3.0.2
       constructs:
         specifier: ^10.0.5
         version: 10.4.2
