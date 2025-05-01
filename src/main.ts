@@ -10,6 +10,7 @@ new PipelineStack(app, `${PROJECT_NAME}-pipeline`, {
     region: pipelineConfig.env.region,
   },
   pipelineName: pipelineConfig.pipelineName,
+  dynamicAccounts: pipelineConfig.dynamicAccounts,
   useChangeSets: pipelineConfig.useChangeSets,
   selfMutation: pipelineConfig.selfMutation,
   github: {

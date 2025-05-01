@@ -12,9 +12,8 @@ new DevPipelineStack(app, `${PROJECT_NAME}-pipeline-dev`, {
     account: pipelineConfig.env.account,
     region: pipelineConfig.env.region,
   },
-  ssmParameterNameCodeStarConnection:
-    pipelineConfig.ssmParameterNameCodeStarConnection,
   pipelineName: `${PROJECT_NAME}-pipeline-dev`,
+  dynamicAccounts: pipelineConfig.dynamicAccounts,
   useChangeSets: pipelineConfig.useChangeSets,
   selfMutation: pipelineConfig.selfMutation,
   github: {

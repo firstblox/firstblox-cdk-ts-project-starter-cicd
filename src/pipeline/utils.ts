@@ -5,11 +5,11 @@ export const fetchAccountsStep = (
   input: pipelines.CodePipelineSource,
   region: string,
 ) => {
-  const organizationStackStep = new pipelines.CodeBuildStep("fetch-accounts", {
+  const fetchAccountsStep = new pipelines.CodeBuildStep("fetch-accounts", {
     rolePolicyStatements: [
       new iam.PolicyStatement({
         actions: ["ssm:GetParameter"],
-        resources: ["/accountId/*"],
+        resources: ["*"],
       }),
     ],
     input,
@@ -18,7 +18,8 @@ export const fetchAccountsStep = (
       "pnpm i",
       `node src/scripts/fetch-accounts.js --region ${region}`,
     ],
+    primaryOutputDirectory: "cdk.out",
   });
 
-  return organizationStackStep;
+  return fetchAccountsStep;
 };
