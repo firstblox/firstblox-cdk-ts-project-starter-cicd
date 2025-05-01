@@ -77,7 +77,7 @@ export class PipelineStack extends cdk.Stack {
       synth: new pipelines.CodeBuildStep("synth", {
         ...(props.dynamicAccounts && {
           additionalInputs: {
-            accountsAsDotEnv: fetchAccountsStep(sourceAction, this.region),
+            ".": fetchAccountsStep(sourceAction, this.region),
           },
         }),
         input: sourceAction,

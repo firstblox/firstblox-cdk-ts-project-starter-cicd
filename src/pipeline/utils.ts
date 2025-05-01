@@ -17,7 +17,9 @@ export const fetchAccountsStep = (
       "npm install -g pnpm",
       "pnpm i",
       `node src/scripts/fetch-accounts.js --region ${region}`,
+      "mkdir -p output",
+      "cp .env output/",
     ],
-    primaryOutputDirectory: ".",
+    primaryOutputDirectory: "output",
   });
 };
