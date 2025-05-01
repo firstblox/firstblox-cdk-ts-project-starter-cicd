@@ -11,11 +11,15 @@ program
 
 const options = program.opts();
 
+function isRunningInCodeBuild() {
+  return !!process.env.CODEBUILD_BUILD_ID;
+}
+
 async function createSSMClient(region) {
   try {
     return new SSMClient({
       region,
-      credentials: fromEnv(),
+      ...(isRunningInCodeBuild() ? {} : { credentials: fromEnv() }),
     });
   } catch (error) {
     if (
