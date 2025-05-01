@@ -24,9 +24,9 @@ export interface PipelineConfig {
     branch: string;
   };
   pipelineName: string;
-  dynamicAccounts: boolean;
-  useChangeSets: boolean;
-  selfMutation: boolean;
+  dynamicAccounts?: boolean;
+  useChangeSets?: boolean;
+  selfMutation?: boolean;
   ssmParameterNameCodeStarConnection?: string;
   codeStarConnectionName?: string;
 }

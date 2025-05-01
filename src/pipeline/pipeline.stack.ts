@@ -12,8 +12,9 @@ export interface PipelineStackProps extends cdk.StackProps {
   ssmParameterNameCodeStarConnection?: string;
   codeStarConnectionName?: string;
   pipelineName: string;
-  useChangeSets: boolean;
-  selfMutation: boolean;
+  dynamicAccounts?: boolean;
+  useChangeSets?: boolean;
+  selfMutation?: boolean;
   github: {
     owner: string;
     repository: string;
