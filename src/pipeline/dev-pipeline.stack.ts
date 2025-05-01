@@ -1,11 +1,12 @@
 import * as cdk from "aws-cdk-lib";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
+import * as codestarconnections from "aws-cdk-lib/aws-codestarconnections";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as ssm from "aws-cdk-lib/aws-ssm";
 import * as pipelines from "aws-cdk-lib/pipelines";
-import * as codestarconnections from "aws-cdk-lib/aws-codestarconnections";
 import { Construct } from "constructs";
 import { PipelineStage } from "./pipeline.stage";
+import { fetchAccountsStep } from "./utils";
 import { environments } from "../config/config";
 
 export interface DevPipelineStackProps extends cdk.StackProps {
@@ -26,7 +27,8 @@ export class DevPipelineStack extends cdk.Stack {
     super(scope, id, props);
 
     let codestarConnectionArn: string;
-    const codeStarConnectionName = props.codeStarConnectionName || "codestar-connection-dev";
+    const codeStarConnectionName =
+      props.codeStarConnectionName || "codestar-connection-dev";
 
     if (props.ssmParameterNameCodeStarConnection) {
       codestarConnectionArn = ssm.StringParameter.valueFromLookup(
@@ -73,6 +75,9 @@ export class DevPipelineStack extends cdk.Stack {
         ],
       },
       synth: new pipelines.CodeBuildStep("synth", {
+        additionalInputs: {
+          accountsAsDotEnv: fetchAccountsStep(sourceAction, this.region),
+        },
         input: sourceAction,
         commands: [
           "npm install -g pnpm",

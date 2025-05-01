@@ -45,10 +45,8 @@ export const environments: Record<Stage, EnvironmentConfig> = {
         process.env.TARGET_REGION || (process.env.CDK_DEFAULT_REGION as string),
     },
     stateful: {
-      tableName:
-        `${PROJECT_NAME}-${process.env.STAGE}-table`.toLowerCase(),
-      bucketName:
-        `${PROJECT_NAME}-${process.env.STAGE}-bucket`.toLowerCase(),
+      tableName: `${PROJECT_NAME}-${process.env.STAGE}-table`.toLowerCase(),
+      bucketName: `${PROJECT_NAME}-${process.env.STAGE}-bucket`.toLowerCase(),
     },
     stateless: {
       lambdaMemorySize: 1024,
@@ -62,8 +60,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
     },
     stateful: {
       tableName: `${PROJECT_NAME}-${Stage.dev}-table`.toLowerCase(),
-      bucketName:
-        `${PROJECT_NAME}-${Stage.dev}-bucket`.toLowerCase(),
+      bucketName: `${PROJECT_NAME}-${Stage.dev}-bucket`.toLowerCase(),
     },
     stateless: {
       lambdaMemorySize: 1024,
@@ -77,8 +74,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
     },
     stateful: {
       tableName: `${PROJECT_NAME}-${Stage.dev}-table`.toLowerCase(),
-      bucketName:
-        `${PROJECT_NAME}-${Stage.dev}-bucket`.toLowerCase(),
+      bucketName: `${PROJECT_NAME}-${Stage.dev}-bucket`.toLowerCase(),
     },
     stateless: {
       lambdaMemorySize: 1024,
@@ -92,8 +88,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
     },
     stateful: {
       tableName: `${PROJECT_NAME}-${Stage.staging}-table`.toLowerCase(),
-      bucketName:
-        `${PROJECT_NAME}-${Stage.staging}-bucket`.toLowerCase(),
+      bucketName: `${PROJECT_NAME}-${Stage.staging}-bucket`.toLowerCase(),
     },
     stateless: {
       lambdaMemorySize: 1024,
@@ -107,8 +102,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
     },
     stateful: {
       tableName: `${PROJECT_NAME}-${Stage.prod}-table`.toLowerCase(),
-      bucketName:
-        `${PROJECT_NAME}-${Stage.prod}-bucket`.toLowerCase(),
+      bucketName: `${PROJECT_NAME}-${Stage.prod}-bucket`.toLowerCase(),
     },
     stateless: {
       lambdaMemorySize: 1024,

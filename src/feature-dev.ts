@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
 import * as dotenv from "dotenv";
-import { environments, PROJECT_NAME } from "./config/config";
-import { Stage } from "./config/types";
 import { StatefulStack } from "./app/stacks/stateful.stack";
 import { StatelessStack } from "./app/stacks/stateless.stack";
+import { environments, PROJECT_NAME } from "./config/config";
+import { Stage } from "./config/types";
 
 dotenv.config();
 

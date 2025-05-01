@@ -1,9 +1,9 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
-import { PROJECT_NAME } from "../config/config";
-import { EnvironmentConfig } from "../config/types";
 import { StatefulStack } from "../app/stacks/stateful.stack";
 import { StatelessStack } from "../app/stacks/stateless.stack";
+import { PROJECT_NAME } from "../config/config";
+import { EnvironmentConfig } from "../config/types";
 
 export class PipelineStage extends cdk.Stage {
   constructor(scope: Construct, id: string, props: EnvironmentConfig) {

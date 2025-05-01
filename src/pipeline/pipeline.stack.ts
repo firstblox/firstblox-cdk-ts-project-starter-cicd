@@ -1,10 +1,10 @@
 import * as cdk from "aws-cdk-lib";
 import * as codebuild from "aws-cdk-lib/aws-codebuild";
+import * as codestarconnections from "aws-cdk-lib/aws-codestarconnections";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as ssm from "aws-cdk-lib/aws-ssm";
 import * as pipelines from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
-import * as codestarconnections from "aws-cdk-lib/aws-codestarconnections";
 import { PipelineStage } from "./pipeline.stage";
 import { environments } from "../config/config";
 
@@ -26,7 +26,8 @@ export class PipelineStack extends cdk.Stack {
     super(scope, id, props);
 
     let codestarConnectionArn: string;
-    const codeStarConnectionName = props.codeStarConnectionName || "codestar-connection";
+    const codeStarConnectionName =
+      props.codeStarConnectionName || "codestar-connection";
 
     if (props.ssmParameterNameCodeStarConnection) {
       codestarConnectionArn = ssm.StringParameter.valueFromLookup(
