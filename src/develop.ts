@@ -1,5 +1,5 @@
 import * as cdk from "aws-cdk-lib";
-import { pipelineConfig, PROJECT_NAME } from "./config/config";
+import { pipelineConfig, PROJECT_NAME } from "./config";
 import { DevPipelineStack } from "./pipeline/dev-pipeline.stack";
 
 const app = new cdk.App();

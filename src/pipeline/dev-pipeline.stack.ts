@@ -7,7 +7,7 @@ import * as pipelines from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
 import { ApplicationStage } from "../app/stages/application.stage";
 import { fetchAccountsStep } from "./utils";
-import { environments } from "../config/config";
+import { environments } from "../config";
 import { Stage } from "../config/types";
 
 export interface DevPipelineStackProps extends cdk.StackProps {

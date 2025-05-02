@@ -25,17 +25,19 @@ firstblox-cdk-ts-project-starter-cicd
 > [!IMPORTANT]
 > This codebase is currently a reference repository ONLY.
 > Developers should customise to their environment and requirements.
-> See `src/config/config.ts` for all configurations
+> See `src/config/index.ts` for all configurations
 
 **Whats included?**
 
 - Projen CDK TS project scaffolding.
-- Seperate develop app to manage the dev pipeline.
-- Seperate feature-dev app to facilitate the creation of developer sandboxes.
-- Application stage
-- Pipeline stack
+- Seperate CDK app entrypoint for feature developement and to facilitate the creation of developer sandboxes.
+- Seperate CDK app entrypoint for the develop branch and to manage the dev pipeline.
+- Seperate CDK app entrypoint for the main branch and to manage the path to production pipeline.
+- Pipeline stack for main
+- Pipeline stack for develop
 - Stateful stack with sample stateful resources.
 - Stateless stack with sample APIGW and sample Lambda handlers.
+- Application stage encapsulating application stacks a deployable unit.
 - Configuration file for dynamic loading of environment configurations.
 - Auto generation of deployment stages via CDK pipelines.
 - Optional dynamic fetching of SSM stored aws account ids.
@@ -130,9 +132,9 @@ export const pipelineConfig: PipelineConfig = {
 };
 ```
 
-### Option 2 - Specify actual account ids in `config.ts`.
+### Option 2 - Specify actual account ids in config.
 
-Open [src/config/config.ts](./src/config/config.ts) and:
+Open [src/config/index.ts](./src/config/index.ts) and:
 
 1. Set `dynamicAccounts: false`
 2. modify the `accountIds` with actual accountIds for your target environment
