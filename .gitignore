@@ -36,6 +36,7 @@ jspm_packages/
 !/.github/pull_request_template.md
 !/.prettierignore
 !/.prettierrc.json
+!/.npmrc
 !/test/
 !/tsconfig.json
 !/tsconfig.dev.json
@@ -53,5 +54,8 @@ tmp
 cdk.context.json
 cdk.out/
 cdk.develop.out/
+cdk.feature-dev.out/
+cdk.hotfix.out/
 cdk-outputs.json
+!/src/config/ssm-account-ids.ts
 !/.projenrc.ts

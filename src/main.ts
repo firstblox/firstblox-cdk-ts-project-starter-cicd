@@ -1,16 +1,16 @@
-import { App } from "aws-cdk-lib";
-import { pipelineConfig } from "./config";
-import { PipelineStack } from "./pipeline/stack/pipeline.stack";
+import * as cdk from "aws-cdk-lib";
+import { pipelineConfig, PROJECT_NAME } from "./config";
+import { PipelineStack } from "./pipeline/pipeline.stack";
 
-const app = new App();
+const app = new cdk.App();
 
-new PipelineStack(app, "pipeline-stack", {
+new PipelineStack(app, `${PROJECT_NAME}-pipeline`, {
   env: {
-    region: pipelineConfig.env.region,
     account: pipelineConfig.env.account,
+    region: pipelineConfig.env.region,
   },
-  codeStarConnectionName: pipelineConfig.codeStarConnectionName,
   pipelineName: pipelineConfig.pipelineName,
+  dynamicAccounts: pipelineConfig.dynamicAccounts,
   useChangeSets: pipelineConfig.useChangeSets,
   selfMutation: pipelineConfig.selfMutation,
   github: {

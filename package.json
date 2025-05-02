@@ -12,6 +12,8 @@
     "diff": "npx projen diff",
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
+    "feature-dev": "npx projen feature-dev",
+    "fetch-accounts": "npx projen fetch-accounts",
     "package": "npx projen package",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",
@@ -44,15 +46,19 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.782.0",
     "@aws-sdk/client-s3": "^3.782.0",
+    "@aws-sdk/client-ssm": "^3.799.0",
+    "@aws-sdk/credential-provider-env": "^3.799.0",
     "@aws-sdk/lib-dynamodb": "^3.782.0",
     "@types/aws-lambda": "^8.10.148",
     "aws-cdk-lib": "^2.1.0",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1692.0",
+    "commander": "^3.0.2",
     "constructs": "^10.0.5",
     "dotenv": "^16.4.7",
     "uuid": "^11.1.0"
   },
+  "pnpm": {},
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"

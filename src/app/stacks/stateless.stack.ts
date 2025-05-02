@@ -8,10 +8,6 @@ import * as s3 from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 
 export interface StatelessStackProps extends cdk.StackProps {
-  env: {
-    account: string;
-    region: string;
-  };
   table: dynamodb.Table;
   bucket: s3.Bucket;
   stageName: string;
@@ -45,7 +41,7 @@ export class StatelessStack extends cdk.Stack {
       "GetOrderLambda",
       {
         runtime: lambda.Runtime.NODEJS_20_X,
-        entry: path.join(__dirname, "handlers/get-order/handler.ts"),
+        entry: path.join(__dirname, "../handlers/get-order/handler.ts"),
         memorySize: props.lambdaMemorySize,
         handler: "handler",
         environment: {
@@ -60,7 +56,7 @@ export class StatelessStack extends cdk.Stack {
       "CreateOrderLambda",
       {
         runtime: lambda.Runtime.NODEJS_20_X,
-        entry: path.join(__dirname, "handlers/create-order/handler.ts"),
+        entry: path.join(__dirname, "../handlers/create-order/handler.ts"),
         memorySize: props.lambdaMemorySize,
         handler: "handler",
         environment: {

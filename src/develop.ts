@@ -1,25 +1,23 @@
-import { App } from "aws-cdk-lib";
-import { StatefulStack } from "./app/stateful/stateful.stack";
-import { StatelessStack } from "./app/stateless/stateless.stack";
-import { environments } from "./config";
+import * as cdk from "aws-cdk-lib";
+import { pipelineConfig, PROJECT_NAME } from "./config";
+import { DevPipelineStack } from "./pipeline/dev-pipeline.stack";
 
-const app = new App();
+const app = new cdk.App();
 
-const statefulStack = new StatefulStack(app, "stateful-stack", {
+new DevPipelineStack(app, `${PROJECT_NAME}-pipeline-dev`, {
   env: {
-    region: environments.develop.env.region,
-    account: environments.develop.env.account,
+    account: pipelineConfig.env.account,
+    region: pipelineConfig.env.region,
   },
-  bucketName: environments.develop.stateful.bucketName,
+  pipelineName: `${PROJECT_NAME}-pipeline-dev`,
+  dynamicAccounts: pipelineConfig.dynamicAccounts,
+  useChangeSets: pipelineConfig.useChangeSets,
+  selfMutation: pipelineConfig.selfMutation,
+  github: {
+    owner: pipelineConfig.github.owner,
+    repository: pipelineConfig.github.repository,
+    branch: "develop",
+  },
 });
 
-new StatelessStack(app, "stateless-stack", {
-  env: {
-    region: environments.develop.env.region,
-    account: environments.develop.env.account,
-  },
-  table: statefulStack.table,
-  bucket: statefulStack.bucket,
-  lambdaMemorySize: environments.develop.stateless.lambdaMemorySize,
-  stageName: environments.develop.stageName,
-});
+app.synth();

@@ -6,6 +6,7 @@ import { Construct } from "constructs";
 
 export interface StatefulStackProps extends cdk.StackProps {
   bucketName: string;
+  tableName: string;
 }
 
 export class StatefulStack extends cdk.Stack {
@@ -20,6 +21,7 @@ export class StatefulStack extends cdk.Stack {
     });
 
     this.table = new dynamodb.Table(this, "Table", {
+      tableName: props.tableName,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       encryption: dynamodb.TableEncryption.AWS_MANAGED,
       removalPolicy: RemovalPolicy.DESTROY,

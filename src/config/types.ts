@@ -4,12 +4,9 @@ export interface EnvironmentConfig {
     region: string;
   };
   stageName: string;
-  stateful: {
-    bucketName: string;
-  };
-  stateless: {
-    lambdaMemorySize: number;
-  };
+  tableName: string;
+  bucketName: string;
+  lambdaMemorySize: number;
 }
 
 export interface PipelineConfig {
@@ -22,10 +19,12 @@ export interface PipelineConfig {
     repository: string;
     branch: string;
   };
-  codeStarConnectionName: string;
   pipelineName: string;
-  useChangeSets: boolean;
-  selfMutation: boolean;
+  dynamicAccounts?: boolean;
+  useChangeSets?: boolean;
+  selfMutation?: boolean;
+  ssmParameterNameCodeStarConnection?: string;
+  codeStarConnectionName?: string;
 }
 
 export const enum Region {
@@ -36,8 +35,9 @@ export const enum Region {
 }
 
 export const enum Stage {
+  featureDev = "feature-dev",
   dev = "dev",
+  qa = "qa",
   staging = "staging",
   prod = "prod",
-  develop = "develop",
 }
