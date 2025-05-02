@@ -1,14 +1,14 @@
 #!/usr/bin/env ts-node
 
-import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
-import fs from 'fs';
-import { fromEnv } from '@aws-sdk/credential-provider-env';
-import { Command } from 'commander';
-import { accountParams } from '../config/account-ids';
+import fs from "fs";
+import { SSMClient, GetParameterCommand } from "@aws-sdk/client-ssm";
+import { fromEnv } from "@aws-sdk/credential-provider-env";
+import { Command } from "commander";
+import { accountParams } from "../config/account-ids";
 
 const program = new Command();
 program
-  .option('--region <region>', 'AWS region to use', 'eu-west-1')
+  .option("--region <region>", "AWS region to use", "eu-west-1")
   .parse(process.argv);
 
 const options = program.opts() as { region: string };
@@ -29,13 +29,17 @@ async function createSSMClient(region: string): Promise<SSMClient> {
   } catch (error) {
     const err = error as Error;
     if (
-      err.message.includes('No SSO sessions found') ||
-      err.message.includes('SSO session associated with this profile has expired')
+      err.message.includes("No SSO sessions found") ||
+      err.message.includes(
+        "SSO session associated with this profile has expired",
+      )
     ) {
-      console.error('\nError: AWS SSO session is expired or not found');
+      console.error("\nError: AWS SSO session is expired or not found");
       console.error('Please run "aws sso login" and try again\n');
     } else {
-      console.error('\nError: Failed to create SSM client with your current aws profile');
+      console.error(
+        "\nError: Failed to create SSM client with your current aws profile",
+      );
       console.error(`Details: ${err.message}\n`);
     }
     throw err;
@@ -47,18 +51,23 @@ async function createSSMClient(region: string): Promise<SSMClient> {
  * @param {string} ssmName
  * @returns {Promise<string>}
  */
-async function fetchAccountId(ssm: SSMClient, ssmName: string): Promise<string> {
+async function fetchAccountId(
+  ssm: SSMClient,
+  ssmName: string,
+): Promise<string> {
   try {
-    const param = await ssm.send(new GetParameterCommand({
-      Name: ssmName,
-      WithDecryption: true,
-    }));
+    const param = await ssm.send(
+      new GetParameterCommand({
+        Name: ssmName,
+        WithDecryption: true,
+      }),
+    );
     const value = param.Parameter && param.Parameter.Value;
-    return value ?? '';
+    return value ?? "";
   } catch (err) {
     const error = err as Error & { name?: string };
-    if (error.name === 'ParameterNotFound') {
-      return '';
+    if (error.name === "ParameterNotFound") {
+      return "";
     }
     throw error;
   }
@@ -79,11 +88,16 @@ async function main(): Promise<void> {
   }
 
   if (lines.length > 0) {
-    fs.writeFileSync('.env', lines.join('\n'));
+    fs.writeFileSync(".env", lines.join("\n"));
     console.log(`✅ Account IDs written to .env (region: ${options.region})`);
   } else {
-    console.log(`⚠️  No account IDs found in SSM in region ${options.region}, .env not written.`);
+    console.log(
+      `⚠️  No account IDs found in SSM in region ${options.region}, .env not written.`,
+    );
   }
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

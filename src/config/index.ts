@@ -1,11 +1,6 @@
 import * as dotenv from "dotenv";
-import {
-  EnvironmentConfig,
-  Region,
-  Stage,
-  PipelineConfig,
-} from "./types";
 import { AccountId } from "./account-ids";
+import { EnvironmentConfig, Region, Stage, PipelineConfig } from "./types";
 
 dotenv.config();
 

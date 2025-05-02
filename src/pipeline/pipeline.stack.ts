@@ -5,8 +5,8 @@ import * as iam from "aws-cdk-lib/aws-iam";
 import * as ssm from "aws-cdk-lib/aws-ssm";
 import * as pipelines from "aws-cdk-lib/pipelines";
 import { Construct } from "constructs";
-import { ApplicationStage } from "../app/stages/application.stage";
 import { fetchAccountsStep } from "./utils";
+import { ApplicationStage } from "../app/stages/application.stage";
 import { environments } from "../config";
 import { Stage } from "../config/types";
 export interface PipelineStackProps extends cdk.StackProps {
@@ -77,7 +77,7 @@ export class PipelineStack extends cdk.Stack {
       synth: new pipelines.CodeBuildStep("synth", {
         ...(props.dynamicAccounts && {
           additionalInputs: {
-            'accounts': fetchAccountsStep(sourceAction, this.region),
+            accounts: fetchAccountsStep(sourceAction, this.region),
           },
         }),
         input: sourceAction,
