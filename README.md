@@ -106,7 +106,7 @@ During dynamic fetching they are written to `.env`.
 
 **SSM account id format**
 
-An SSM parameter per account id you are working with must be created.
+Each AWS account you want to deploy to requires a dedicated SSM parameter associated with its account ID.
 
 Currently the format for the name of these parameters is as follows:
 
@@ -122,7 +122,7 @@ Open `.projenrc` to modify environment names or indeed account names.
 
 Running `npx projen` updates [src/config/account-ids.ts](./src/config/account-ids.ts).
 
-Dynamic fetching reads from this file to peform lookups.
+The dynamic fetching script reads from this file to peform lookups.
 
 **Enabling dynamic fetching of accounts**
 
