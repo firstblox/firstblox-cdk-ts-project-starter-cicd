@@ -8,10 +8,6 @@ import * as s3 from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 
 export interface StatelessStackProps extends cdk.StackProps {
-  env: {
-    account: string;
-    region: string;
-  };
   table: dynamodb.Table;
   bucket: s3.Bucket;
   stageName: string;
