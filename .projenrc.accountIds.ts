@@ -8,6 +8,8 @@ const envs = [
   { env: "ACCOUNT_ID_PROD", ssm: "/accountId/prod", key: "prod" },
 ];
 
+export const GENERATED_ACCOUNT_IDS_FILE = "src/config/account-ids.ts";
+
 export const generateAccountIdConfig = (project: awscdk.AwsCdkTypeScriptApp) => {
   const lines = [
     "export const accountParams = [",
@@ -19,7 +21,7 @@ export const generateAccountIdConfig = (project: awscdk.AwsCdkTypeScriptApp) => 
     "}",
   ];
 
-  new TextFile(project, "src/config/account-ids.ts", {
+  new TextFile(project, GENERATED_ACCOUNT_IDS_FILE, {
     marker: true,
     readonly: false,
     lines,
