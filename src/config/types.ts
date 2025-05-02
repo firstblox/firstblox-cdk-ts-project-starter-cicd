@@ -27,14 +27,6 @@ export interface PipelineConfig {
   codeStarConnectionName?: string;
 }
 
-export interface AccountId {
-  pipeline: string;
-  dev: string;
-  qa: string;
-  staging: string;
-  prod: string;
-}
-
 export const enum Region {
   virginia = "us-east-1",
   dublin = "eu-west-1",

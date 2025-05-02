@@ -33,8 +33,8 @@ firstblox-cdk-ts-project-starter-cicd
 - Seperate CDK app entrypoint for feature developement and to facilitate the creation of developer sandboxes.
 - Seperate CDK app entrypoint for the develop branch and to manage the dev pipeline.
 - Seperate CDK app entrypoint for the main branch and to manage the path to production pipeline.
-- Pipeline stack for main
-- Pipeline stack for develop
+- Pipeline stack for main.
+- Pipeline stack for develop.
 - Stateful stack with sample stateful resources.
 - Stateless stack with sample APIGW and sample Lambda handlers.
 - Application stage encapsulating application stacks a deployable unit.
@@ -106,17 +106,34 @@ During dynamic fetching they are written to `.env`.
 
 **SSM account id format**
 
+An SSM parameter per account id you are working with must be created.
+
+Currently the format for the name of these parameters is as follows:
+
+```bash
+/accountId/pipeline
+```
+
+These parameters must reside in the same AWS account as you intend to provision your pipeline.
+
+**Configuring accountId names**
+
+Open `.projenrc` to modify environment names or indeed account names.
+
+Running `npx projen` updates [src/config/account-ids.ts](./src/config/account-ids.ts).
+
+Dynamic fetching reads from this file to peform lookups.
 
 **Enabling dynamic fetching of accounts**
 
-Open [src/config/config.ts](./src/config/config.ts) and modify the pipelineConfig property `dynamicAccounts`.
+Open [src/config/index.ts](./src/config/index.ts) and modify the pipelineConfig property `dynamicAccounts`.
 
 E.g.
 
 ```typescript
 export const pipelineConfig: PipelineConfig = {
   env: {
-    account: accountIds.pipeline,
+    account: accountIdConfig.pipeline,
     region: Region.dublin,
   },
   github: {
@@ -137,12 +154,12 @@ export const pipelineConfig: PipelineConfig = {
 Open [src/config/index.ts](./src/config/index.ts) and:
 
 1. Set `dynamicAccounts: false`
-2. modify the `accountIds` with actual accountIds for your target environment
+2. modify the `accountIdConfig` with actual accountIdConfig for your target environment
 
 E.g.
 
 ```typescript
-export const accountIds: AccountId = {
+export const accountIdConfig: AccountId = {
   pipeline: "111111111111",
   dev: "222222222222",
   qa: "333333333333",

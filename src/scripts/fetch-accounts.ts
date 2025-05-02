@@ -1,67 +1,75 @@
-// scripts/fetch-accounts.js
-const { SSMClient, GetParameterCommand } = require('@aws-sdk/client-ssm');
-const fs = require('fs');
-const { fromEnv } = require('@aws-sdk/credential-provider-env');
-const { Command } = require('commander');
+#!/usr/bin/env ts-node
 
-const accountParams = [
-  { env: 'ACCOUNT_ID_PIPELINE', ssm: '/accountId/pipeline' },
-  { env: 'ACCOUNT_ID_DEV',      ssm: '/accountId/dev' },
-  { env: 'ACCOUNT_ID_QA',       ssm: '/accountId/qa' },
-  { env: 'ACCOUNT_ID_STAGING',  ssm: '/accountId/staging' },
-  { env: 'ACCOUNT_ID_PROD',     ssm: '/accountId/prod' },
-];
+import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
+import fs from 'fs';
+import { fromEnv } from '@aws-sdk/credential-provider-env';
+import { Command } from 'commander';
+import { accountParams } from '../config/account-ids';
 
 const program = new Command();
 program
   .option('--region <region>', 'AWS region to use', 'eu-west-1')
   .parse(process.argv);
 
-const options = program.opts();
+const options = program.opts() as { region: string };
 
-function isRunningInCodeBuild() {
+function isRunningInCodeBuild(): boolean {
   return !!process.env.CODEBUILD_BUILD_ID;
 }
 
-async function createSSMClient(region) {
+/**
+ * @param {string} region
+ */
+async function createSSMClient(region: string): Promise<SSMClient> {
   try {
     return new SSMClient({
       region,
       ...(isRunningInCodeBuild() ? {} : { credentials: fromEnv() }),
     });
   } catch (error) {
+    const err = error as Error;
     if (
-      error.message.includes('No SSO sessions found') ||
-      error.message.includes('SSO session associated with this profile has expired')
+      err.message.includes('No SSO sessions found') ||
+      err.message.includes('SSO session associated with this profile has expired')
     ) {
       console.error('\nError: AWS SSO session is expired or not found');
       console.error('Please run "aws sso login" and try again\n');
     } else {
       console.error('\nError: Failed to create SSM client with your current aws profile');
-      console.error(`Details: ${error.message}\n`);
-    }
-    throw error;
-  }
-}
-
-async function fetchAccountId(ssm, ssmName) {
-  try {
-    const param = await ssm.send(new GetParameterCommand({
-      Name: ssmName,
-      WithDecryption: true,
-    }));
-    return param.Parameter.Value;
-  } catch (err) {
-    if (err.name === 'ParameterNotFound') {
-      return undefined;
+      console.error(`Details: ${err.message}\n`);
     }
     throw err;
   }
 }
 
-async function main() {
+/**
+ * @param {SSMClient} ssm
+ * @param {string} ssmName
+ * @returns {Promise<string>}
+ */
+async function fetchAccountId(ssm: SSMClient, ssmName: string): Promise<string> {
+  try {
+    const param = await ssm.send(new GetParameterCommand({
+      Name: ssmName,
+      WithDecryption: true,
+    }));
+    const value = param.Parameter && param.Parameter.Value;
+    return value ?? '';
+  } catch (err) {
+    const error = err as Error & { name?: string };
+    if (error.name === 'ParameterNotFound') {
+      return '';
+    }
+    throw error;
+  }
+}
+
+/**
+ * @returns {Promise<void>}
+ */
+async function main(): Promise<void> {
   const ssm = await createSSMClient(options.region);
-  const lines = [];
+  const lines: string[] = [];
 
   for (const { env, ssm: ssmName } of accountParams) {
     const value = await fetchAccountId(ssm, ssmName);

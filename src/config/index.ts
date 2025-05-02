@@ -1,17 +1,17 @@
 import * as dotenv from "dotenv";
 import {
-  AccountId,
   EnvironmentConfig,
   Region,
   Stage,
   PipelineConfig,
 } from "./types";
+import { AccountId } from "./account-ids";
 
 dotenv.config();
 
 export const PROJECT_NAME = "firstblox-cdk-ts-project-starter-cicd";
 
-export const accountIds: AccountId = {
+export const accountIdConfig: AccountId = {
   pipeline: process.env.ACCOUNT_ID_PIPELINE || "",
   dev: process.env.ACCOUNT_ID_DEV || "",
   qa: process.env.ACCOUNT_ID_QA || "",
@@ -21,7 +21,7 @@ export const accountIds: AccountId = {
 
 export const pipelineConfig: PipelineConfig = {
   env: {
-    account: accountIds.pipeline,
+    account: accountIdConfig.pipeline,
     region: Region.dublin,
   },
   github: {
@@ -52,7 +52,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
   },
   [Stage.dev]: {
     env: {
-      account: accountIds.dev,
+      account: accountIdConfig.dev,
       region: Region.virginia,
     },
     tableName: `${PROJECT_NAME}-${Stage.dev}-table`.toLowerCase(),
@@ -62,7 +62,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
   },
   [Stage.qa]: {
     env: {
-      account: accountIds.qa,
+      account: accountIdConfig.qa,
       region: Region.virginia,
     },
     tableName: `${PROJECT_NAME}-${Stage.dev}-table`.toLowerCase(),
@@ -72,7 +72,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
   },
   [Stage.staging]: {
     env: {
-      account: accountIds.staging,
+      account: accountIdConfig.staging,
       region: Region.virginia,
     },
     tableName: `${PROJECT_NAME}-${Stage.staging}-table`.toLowerCase(),
@@ -82,7 +82,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
   },
   [Stage.prod]: {
     env: {
-      account: accountIds.prod,
+      account: accountIdConfig.prod,
       region: Region.virginia,
     },
     tableName: `${PROJECT_NAME}-${Stage.prod}-table`.toLowerCase(),
