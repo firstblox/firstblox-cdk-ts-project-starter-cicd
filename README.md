@@ -118,7 +118,7 @@ These parameters must reside in the same AWS account as you intend to provision 
 
 **Configuring accountId names**
 
-Open `.projenrc` to modify environment names or indeed account names.
+Open `.projenrc.accountIds.ts` to modify environment names or indeed account names.
 
 Running `npx projen` updates [src/config/account-ids.ts](./src/config/account-ids.ts).
 
