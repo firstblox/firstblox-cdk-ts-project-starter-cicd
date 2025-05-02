@@ -51,6 +51,11 @@ project.addTask("feature-dev", {
   receiveArgs: true,
 });
 
+project.addTask('fetch-accounts', {
+  exec: 'ts-node src/scripts/fetch-accounts.ts',
+  receiveArgs: true,
+});
+
 const envs = [
   { env: 'ACCOUNT_ID_PIPELINE', ssm: '/accountId/pipeline', key: 'pipeline' },
   { env: 'ACCOUNT_ID_DEV',      ssm: '/accountId/dev',      key: 'dev' },

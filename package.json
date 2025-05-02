@@ -13,6 +13,7 @@
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
     "feature-dev": "npx projen feature-dev",
+    "fetch-accounts": "npx projen fetch-accounts",
     "package": "npx projen package",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",

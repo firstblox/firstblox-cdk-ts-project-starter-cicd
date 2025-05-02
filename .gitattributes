@@ -21,6 +21,6 @@
 /LICENSE linguist-generated
 /package.json linguist-generated
 /pnpm-lock.yaml linguist-generated
-/src/config/account-ids.ts linguist-generated
+/src/config/ssm-account-ids.ts linguist-generated
 /tsconfig.dev.json linguist-generated
 /tsconfig.json linguist-generated

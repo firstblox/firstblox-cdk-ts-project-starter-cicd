@@ -57,5 +57,5 @@ cdk.develop.out/
 cdk.feature-dev.out/
 cdk.hotfix.out/
 cdk-outputs.json
-!/src/config/account-ids.ts
+!/src/config/ssm-account-ids.ts
 !/.projenrc.ts

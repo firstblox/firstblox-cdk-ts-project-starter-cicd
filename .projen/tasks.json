@@ -145,6 +145,15 @@
         }
       ]
     },
+    "fetch-accounts": {
+      "name": "fetch-accounts",
+      "steps": [
+        {
+          "exec": "ts-node src/scripts/fetch-accounts.ts",
+          "receiveArgs": true
+        }
+      ]
+    },
     "install": {
       "name": "install",
       "description": "Install project dependencies and update lockfile (non-frozen)",

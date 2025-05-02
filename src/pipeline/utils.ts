@@ -16,7 +16,7 @@ export const fetchAccountsStep = (
     commands: [
       "npm install -g pnpm",
       "pnpm i",
-      `node src/scripts/fetch-accounts.js --region ${region}`,
+      `pnpm fetch-accounts --region ${region}`,
       "mkdir -p output",
       "cp .env output/",
     ],
