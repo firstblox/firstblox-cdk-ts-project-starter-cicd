@@ -5,7 +5,11 @@ firstblox-cdk-ts-project-starter-cicd
 
 [Overview](#overview)
 
-[Architecture](#architecture)
+[Install](#install)
+
+[Configure](#configure)
+
+[Development](#deployment)
 
 [Deployment](#deployment)
 
@@ -21,16 +25,20 @@ firstblox-cdk-ts-project-starter-cicd
 > [!IMPORTANT]
 > This codebase is currently a reference repository ONLY.
 > Developers should customise to their environment and requirements.
-> See `src/config.ts` for all configurations
+> See `src/config/config.ts` for all configurations
 
 **Whats included?**
 
 - Projen CDK TS project scaffolding.
-- Seperate develop app to facilitate development.
-- Pipeline stack (includes CodeStarSourceConnection), stage and configuration.
-- Stateful and stateless example stacks.
-- Configuration file for all application configurations.
+- Seperate develop app to manage the dev pipeline.
+- Seperate feature-dev app to facilitate the creation of developer sandboxes.
+- Application stage
+- Pipeline stack
+- Stateful stack with sample stateful resources.
+- Stateless stack with sample APIGW and sample Lambda handlers.
+- Configuration file for dynamic loading of environment configurations.
 - Auto generation of deployment stages via CDK pipelines.
+- Optional dynamic fetching of SSM stored aws account ids.
 
 **Pre-requisites**
 
@@ -41,8 +49,30 @@ firstblox-cdk-ts-project-starter-cicd
 
 # Install
 
+## Initial installation
+
+Ensure pnpm is installed.
+
 ```bash
-npm i
+npm install -g pnpm
+```
+
+Install dependencies.
+
+```bash
+pnpm i
+```
+
+## Adding dependencies
+
+Any new dependencies must be added to `.projenrc` at the root of the project.
+
+## Using Projen
+
+Once the initial installation of dependencies complete, in order to keep all project configuration files and dependencies in sync, each time `.projenrc` is updated run the following command.
+
+```
+npx projen
 ```
 
 # Configure
@@ -62,73 +92,140 @@ Once configuration changes are made via `.projenrc` run the below command.
 npx projen
 ```
 
-## config.ts
+## Fetch Accounts
 
-To prepare your codebase for deployment modify configurations in [config.ts](./src/config.ts).
+### Option 1 - Dynamically fetch account ids
 
-The Account enum will need be updated to specify your own AWS account ids.
+If you want to avoid hardcoding account ids in configuration code, optionally you can store your account ids in SSM in the account in which your CodePipeline will reside.
+
+Once stored they can be dynamically fetched both locally and in a pipeline context.
+
+During dynamic fetching they are written to `.env`.
+
+**SSM account id format**
+
+
+**Enabling dynamic fetching of accounts**
+
+Open [src/config/config.ts](./src/config/config.ts) and modify the pipelineConfig property `dynamicAccounts`.
 
 E.g.
 
 ```typescript
-export const enum Account {
-  pipeline = "111111111111",
-  dev = "22222222222",
-  staging = "33333333333333",
-  prod = "44444444444444",
-}
+export const pipelineConfig: PipelineConfig = {
+  env: {
+    account: accountIds.pipeline,
+    region: Region.dublin,
+  },
+  github: {
+    owner: "firstblox",
+    repository: "firstblox-cdk-ts-project-starter-cicd",
+    branch: "main",
+  },
+  codeStarConnectionName: "project-starter-connection",
+  pipelineName: `${PROJECT_NAME}-pipeline`,
+  dynamicAccounts: true,
+  useChangeSets: true,
+  selfMutation: true,
+};
 ```
+
+### Option 2 - Specify actual account ids in `config.ts`.
+
+Open [src/config/config.ts](./src/config/config.ts) and:
+
+1. Set `dynamicAccounts: false`
+2. modify the `accountIds` with actual accountIds for your target environment
+
+E.g.
+
+```typescript
+export const accountIds: AccountId = {
+  pipeline: "111111111111",
+  dev: "222222222222",
+  qa: "333333333333",
+  staging: "444444444444",
+  prod: "555555555555",
+};
+```
+
+> [!NOTE]
+> If your environments or account identifiers are different you can add/remove/update the account ids enum in [src/config/types.ts](./src/config/types.ts) and align your environment config accordingly.
 
 # Development
 
 ## Configure
 
-Create a `.env` file at the root of the project with the following configurations.
+Create or update a `.env` file at the root of the project with the following configurations.
 
 ```bash
 TARGET_ACCOUNT_ID=XXXXXXXXXXXX
 TARGET_REGION=eu-west-1
-STAGE=lof
+STAGE=lofcodes
 ```
 
-## Synth
+## AWS Credentials
+
+Setup aws credentials for your target AWS development account using your preferred method.
+
+## Feature Development
+
+### Synth
+
+```bash
+STAGE=lofcodes npx projen feature-dev synth
+```
+
+### Deploy
+
+```bash
+STAGE=lofcodes npx projen feature-dev deploy --all
+```
+
+### Destroy
+
+```bash
+STAGE=lofcodes npx projen feature-dev deploy --all
+```
+
+## Develop Pipeline -> Dev Environment
+
+### Synth
 
 ```bash
 npx projen develop synth
 ```
 
-## Deploy
+### Deploy
 
 ```bash
 npx projen develop deploy --all
 ```
 
-# CICD
+### Destroy
 
-## Synth
+```bash
+npx projen develop deploy --all
+```
 
+## Main pipeline -> "Path to Production"
+
+### Synth
 
 ```bash
 npx projen synth
 ```
 
-## Deploy
-
-**Note: This main application entry point deploys the CICD pipeline stack which subsequently deploys the application stacks via the pipeline.**
+### Deploy
 
 ```bash
-npx projen deploy
+npx projen deploy --all
 ```
 
-> [!IMPORTANT]
-> Ensure to accept the pending CodeStarSourceConnection to ensure GitHub can communicate with CodePipeline.
-> See guide [here](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html)
-
-
-## Destroy
+### Destroy
 
 ```bash
-npx projen destroy
+npx projen deploy --all
 ```
 
 ## Approvals

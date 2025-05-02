@@ -4,6 +4,14 @@ const fs = require('fs');
 const { fromEnv } = require('@aws-sdk/credential-provider-env');
 const { Command } = require('commander');
 
+const accountParams = [
+  { env: 'ACCOUNT_ID_PIPELINE', ssm: '/accountId/pipeline' },
+  { env: 'ACCOUNT_ID_DEV',      ssm: '/accountId/dev' },
+  { env: 'ACCOUNT_ID_QA',       ssm: '/accountId/qa' },
+  { env: 'ACCOUNT_ID_STAGING',  ssm: '/accountId/staging' },
+  { env: 'ACCOUNT_ID_PROD',     ssm: '/accountId/prod' },
+];
+
 const program = new Command();
 program
   .option('--region <region>', 'AWS region to use', 'eu-west-1')
@@ -35,14 +43,6 @@ async function createSSMClient(region) {
     throw error;
   }
 }
-
-const accountParams = [
-  { env: 'ACCOUNT_ID_PIPELINE', ssm: '/accountId/pipeline' },
-  { env: 'ACCOUNT_ID_DEV',      ssm: '/accountId/dev' },
-  { env: 'ACCOUNT_ID_QA',       ssm: '/accountId/qa' },
-  { env: 'ACCOUNT_ID_STAGING',  ssm: '/accountId/staging' },
-  { env: 'ACCOUNT_ID_PROD',     ssm: '/accountId/prod' },
-];
 
 async function fetchAccountId(ssm, ssmName) {
   try {
