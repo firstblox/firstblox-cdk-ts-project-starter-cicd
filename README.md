@@ -18,7 +18,7 @@ firstblox-cdk-ts-project-starter-cicd
 ![Title](docs/images/title-card.png)
 
 > [!NOTE]
-> This codebase utilises concepts and reference code from the excellent series by Lee Gilmore on CDK pipelines best practices.
+> This codebase utilises some concepts and some reference code from the excellent series by Lee Gilmore on CDK pipelines best practices.
 > See part 1 [here](https://github.com/leegilmorecode/Serverless-AWS-CDK-Best-Practices-Patterns).
 > I highly recommend you checkout the whole series.
 
