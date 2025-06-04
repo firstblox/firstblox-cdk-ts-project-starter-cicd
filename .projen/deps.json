@@ -49,10 +49,6 @@
       "type": "build"
     },
     {
-      "name": "husky",
-      "type": "build"
-    },
-    {
       "name": "prettier",
       "type": "build"
     },

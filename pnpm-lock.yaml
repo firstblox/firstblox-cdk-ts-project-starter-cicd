@@ -81,9 +81,6 @@ importers:
       eslint-plugin-prettier:
         specifier: ^5.2.6
         version: 5.2.6(eslint-config-prettier@10.1.2(eslint@9.25.1))(eslint@9.25.1)(prettier@3.5.3)
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
@@ -1435,11 +1432,6 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
-
-  husky@9.1.7:
-    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
-    engines: {node: '>=18'}
-    hasBin: true
 
   ieee754@1.1.13:
     resolution: {integrity: sha512-4vf7I2LYV/HaWerSo3XmlMkp5eZ83i+/CDluXi/IGTs/O1sejBNhTtnxzmRZfvOUqj7lZjqHkeTvpgSFDlWZTg==}
@@ -3935,8 +3927,6 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
-
-  husky@9.1.7: {}
 
   ieee754@1.1.13: {}
 

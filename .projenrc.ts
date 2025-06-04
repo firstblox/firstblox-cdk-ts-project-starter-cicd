@@ -26,7 +26,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     "dotenv",
     "uuid",
   ],
-  devDeps: ["@types/uuid", "@types/node", "husky", "ts-node", "tsconfig-paths"],
+  devDeps: ["@types/uuid", "@types/node", "ts-node", "tsconfig-paths"],
   depsUpgradeOptions: {
     workflowOptions: {
       schedule: UpgradeDependenciesSchedule.MONTHLY,
@@ -36,15 +36,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
   },
 });
-
-project.package.addField('scripts', {
-  prepare: 'husky install',
-});
-
-project.postCompileTask.exec("husky install");
-project.postCompileTask.exec(
-  "npx husky add .husky/pre-commit 'npx projen eslint'"
-);
 
 project.github?.mergify?.addRule({
   name: 'Auto-merge Projen upgrade PRs',
