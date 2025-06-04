@@ -22,3 +22,14 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - -label~=(do-not-merge)
       - status-success=build
+  - name: Auto-merge Projen upgrade PRs
+    conditions:
+      - author=github-actions[bot]
+      - "title~^chore\\(deps\\): upgrade dependencies"
+      - label=auto-approve
+      - check-success=build
+    actions:
+      review:
+        type: APPROVE
+      merge:
+        method: squash

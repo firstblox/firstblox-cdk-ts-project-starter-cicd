@@ -1,5 +1,8 @@
 import { awscdk, TextFile } from "projen";
-import { NodePackageManager, UpgradeDependenciesSchedule } from "projen/lib/javascript";
+import {
+  NodePackageManager,
+  UpgradeDependenciesSchedule,
+} from "projen/lib/javascript";
 
 const project = new awscdk.AwsCdkTypeScriptApp({
   cdkVersion: "2.1.0",
@@ -23,7 +26,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     "dotenv",
     "uuid",
   ],
-  devDeps: ["@types/uuid", "@types/node", "ts-node", "tsconfig-paths"],
+  devDeps: ["@types/uuid", "@types/node", "husky", "ts-node", "tsconfig-paths"],
   depsUpgradeOptions: {
     workflowOptions: {
       schedule: UpgradeDependenciesSchedule.MONTHLY,
@@ -33,6 +36,34 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
   },
 });
+
+project.package.addField('scripts', {
+  prepare: 'husky install',
+});
+
+project.postCompileTask.exec("husky install");
+project.postCompileTask.exec(
+  "npx husky add .husky/pre-commit 'npx projen eslint'"
+);
+
+project.github?.mergify?.addRule({
+  name: 'Auto-merge Projen upgrade PRs',
+  conditions: [
+    'author=github-actions[bot]',
+    'title~^chore\\(deps\\): upgrade dependencies',
+    'label=auto-approve',
+    'check-success=build',
+  ],
+  actions: {
+    review: {
+      type: 'APPROVE',
+    },
+    merge: {
+      method: "squash",
+    },
+  },
+});
+
 
 project.gitignore.exclude(
   ".env",
