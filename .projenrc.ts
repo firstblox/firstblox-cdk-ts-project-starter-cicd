@@ -1,5 +1,5 @@
 import { awscdk, TextFile } from "projen";
-import { NodePackageManager } from "projen/lib/javascript";
+import { NodePackageManager, UpgradeDependenciesSchedule } from "projen/lib/javascript";
 
 const project = new awscdk.AwsCdkTypeScriptApp({
   cdkVersion: "2.1.0",
@@ -24,6 +24,11 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     "uuid",
   ],
   devDeps: ["@types/uuid", "@types/node", "ts-node", "tsconfig-paths"],
+  depsUpgradeOptions: {
+    workflowOptions: {
+      schedule: UpgradeDependenciesSchedule.MONTHLY,
+    },
+  },
   context: {
     "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
   },
