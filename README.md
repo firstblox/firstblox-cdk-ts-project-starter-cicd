@@ -9,7 +9,7 @@ firstblox-cdk-ts-project-starter-cicd
 
 [Configure](#configure)
 
-[Development](#deployment)
+[Development](#development)
 
 [Deployment](#deployment)
 
