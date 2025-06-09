@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
 import * as dotenv from "dotenv";
 import { StatefulStack } from "./app/stacks/stateful.stack";
